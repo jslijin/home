@@ -1,27 +1,28 @@
+ll Pow(ll x,ll k,ll p) {
+    ll ret=1;
+    for (; k; k>>=1,x=x*x%p) if (k&1) ret=ret*x%p;
+    return ret; 
+}
+
 vector<ll> c;
-inline bool pan_g(ll g, ll p) {
-	for (int i = 0; i < c.size(); ++i)
-		if (qm(g, c[i], p) == 1)
+
+inline bool check_g(ll g, ll p) {
+	rep(i,0,sz(c))
+		if (Pow(g, c[i], p) == 1)
 			return 0;
 	return 1;
 }
-inline ll findg(ll p) {
+
+inline ll getRoot(ll p) {
 	c.clear();
-	ll tmp = p ? 1,k = 2;
-	while (k * k <= tmp) {
+	ll tmp=p-1,g;
+	for (ll k=2; k*k<=tmp; ++k)
 		if (tmp % k == 0) {
-			c.push_back(k);
+			c.pb(k);
 			while (tmp % k == 0) tmp /= k;
 		}
-		++k;
-	}
-	if (tmp != 1) c.push_back(tmp);
-	for (int i = 0; i < c.size(); ++i)
-		c[i] = (p?1) / c[i];
-	ll g = 1;
-	while (true) {
-		if (pan_g(g, p)) return g;
-		++g;
-	}
-	return 0;
+	if (tmp != 1) c.pb(tmp);
+	rep(i,0,sz(c)) c[i] = (p-1) / c[i];
+	for (g=1; !check_g(g,p); ++g);
+	return g;
 }
