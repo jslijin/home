@@ -40,8 +40,10 @@ struct Euler{
         T.I(x%P,x,ans); return ans; 
     }
     ll query(ll n){
-		ll ans=0,t;
+		ll ans=0,t; T.init();
 		for (ll l=1,r; l<=n; l=r+1) r=n/(n/l), t=n/l%_p, (ans+=1 /* ... */ )%=_p;
 		return (ans+_p)%_p; 
 	}
 };
+
+// 注意：多组数据，哈希表 T.init; 传入大 n, 注意 n/t 乘法溢出
